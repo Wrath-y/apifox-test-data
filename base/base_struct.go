@@ -1,4 +1,4 @@
-package base_m
+package base
 
 type ResultSet struct {
 	Data []*Base
