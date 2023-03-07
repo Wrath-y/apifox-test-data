@@ -6,9 +6,9 @@ import (
 )
 
 type Row struct {
-	Token  string `json:"token"`
-	Body   string `json:"body"`
-	Expect string `json:"expect"`
+	Token  string      `json:"token"`
+	Body   interface{} `json:"body"`
+	Expect interface{} `json:"expect"`
 }
 
 // ReadFile 读取配置好的json文件
@@ -28,9 +28,29 @@ func (r *Row) ReadFile(filename string) []*Row {
 }
 
 func (r *Row) GetBody() string {
-	return r.Body
+	var err error
+	switch r.Body.(type) {
+	case string:
+		return r.Body.(string)
+	default:
+		r.Body, err = json.Marshal(r.Body)
+		if err != nil {
+			panic(err)
+		}
+		return string(r.Body.([]byte))
+	}
 }
 
 func (r *Row) GetExpect() string {
-	return r.Expect
+	var err error
+	switch r.Expect.(type) {
+	case string:
+		return r.Expect.(string)
+	default:
+		r.Expect, err = json.Marshal(r.Expect)
+		if err != nil {
+			panic(err)
+		}
+		return string(r.Expect.([]byte))
+	}
 }

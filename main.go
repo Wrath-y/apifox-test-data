@@ -10,30 +10,35 @@ import (
 
 func main() {
 	// 方式一 直接写结构体
-	finalData := make([]*base.Base, 0)
-	finalData = append(finalData, &base.Base{
-		Token:   "efdd45da273b99550d3a9b00b1a3be8c", // token ttl已经设置为-1 user: wrath
-		BodyI:   new(couponlist.Body).SetBody([]int{15934, 15897, 15878}, "CN9999999", "210126288755961791"),
-		ExpectI: new(couponlist.Expect).SetExpect(1, []string{"210126288755961791"}),
+	rowsData := make([]*base.BaseRow, 0)
+	rowsData = append(rowsData, &base.BaseRow{
+		Token:  "efdd45da273b99550d3a9b00b1a3be8c", // token ttl已经设置为-1 user: wrath
+		Body:   new(couponlist.Body).SetBody([]int{15934, 15897, 15878}, "CN9999999", "210126288755961791"),
+		Expect: new(couponlist.Expect).SetExpect(1, []string{"210126288755961791"}),
 	})
-	GetJson(finalData, "test_by_struct.json")
+	GetJson(rowsData, "test_by_struct.json")
 
 	// 方式二 导入写好的json文件
-	finalData = make([]*base.Base, 0)
+	rowsData = make([]*base.BaseRow, 0)
 	for _, v := range new(base.Row).ReadFile("test.json") {
-		finalData = append(finalData, &base.Base{
-			Token:   v.Token,
-			BodyI:   v,
-			ExpectI: v,
+		rowsData = append(rowsData, &base.BaseRow{
+			Token:  v.Token,
+			Body:   v,
+			Expect: v,
 		})
 	}
-	GetJson(finalData, "test_by_file.json")
+	GetJson(rowsData, "test_by_file.json")
 }
 
-func GetJson(finalData []*base.Base, filename string) {
-	for _, v := range finalData {
-		v.Body = v.BodyI.GetBody()
-		v.Expect = v.ExpectI.GetExpect()
+func GetJson(rowsData []*base.BaseRow, filename string) {
+	finalData := make([]*base.Base, 0, len(rowsData))
+
+	for _, v := range rowsData {
+		finalData = append(finalData, &base.Base{
+			Token:  v.Token,
+			Body:   v.Body.GetBody(),
+			Expect: v.Expect.GetExpect(),
+		})
 	}
 
 	jsonBytes, err := json.Marshal(finalData)

@@ -1,17 +1,21 @@
 package base
 
 type Base struct {
-	Token   string  `json:"token"`
-	BodyI   BodyI   `json:"-"`
-	Body    string  `json:"body"`
-	ExpectI ExpectI `json:"-"`
-	Expect  string  `json:"expect"`
+	Token  string `json:"token"`
+	Body   string `json:"body"`
+	Expect string `json:"expect"`
 }
 
-type BodyI interface {
+type BaseRow struct {
+	Token  string
+	Body   Body
+	Expect Expect
+}
+
+type Body interface {
 	GetBody() string
 }
 
-type ExpectI interface {
+type Expect interface {
 	GetExpect() string
 }
