@@ -1,0 +1,1 @@
+[{"token":"efdd45da273b99550d3a9b00b1a3be8c","body":"{\"order_product\":[{\"cart_id\":15934,\"ticket_code\":\"\"},{\"cart_id\":15897,\"ticket_code\":\"\"},{\"cart_id\":15878,\"ticket_code\":\"\"}],\"store_sn\":\"CN9999999\",\"ticket_code\":\"210126288755961791\"}","expect":"{\"coupons.length\":1,\"coupons\":[{\"ticket_code\":\"210126288755961791\"}]}"}]

@@ -1,4 +1,4 @@
-package settlement
+package couponlist
 
 import "encoding/json"
 
