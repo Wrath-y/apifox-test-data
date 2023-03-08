@@ -16,21 +16,21 @@ func main() {
 		Body:   new(couponlist.Body).SetBody([]int{15934, 15897, 15878}, "CN9999999", "210126288755961791"),
 		Expect: new(couponlist.Expect).SetExpect(1, []string{"210126288755961791"}),
 	})
-	GetJson(rowsData, "test_by_struct.json")
+	Done(rowsData, "apifox_import_data.json")
 
 	// 方式二 导入写好的json文件
 	rowsData = make([]*base.ApiFoxRowData, 0)
-	for _, v := range new(base.Row).ReadFile("test.json") {
+	for _, v := range new(base.Row).ReadFile("testing_data.json") {
 		rowsData = append(rowsData, &base.ApiFoxRowData{
 			Token:  v.Token,
 			Body:   v,
 			Expect: v,
 		})
 	}
-	GetJson(rowsData, "test_by_file.json")
+	Done(rowsData, "apifox_import_data.json")
 }
 
-func GetJson(rowsData []*base.ApiFoxRowData, filename string) {
+func Done(rowsData []*base.ApiFoxRowData, exportFilename string) {
 	finalData := make([]*base.ApiFoxImportJson, 0, len(rowsData))
 
 	for _, v := range rowsData {
@@ -46,7 +46,7 @@ func GetJson(rowsData []*base.ApiFoxRowData, filename string) {
 		panic(err)
 	}
 
-	GenerateFile(filename, jsonBytes)
+	GenerateFile(exportFilename, jsonBytes)
 	fmt.Println("JSON string:", string(jsonBytes))
 }
 
