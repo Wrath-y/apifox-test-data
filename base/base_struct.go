@@ -1,12 +1,12 @@
 package base
 
-type Base struct {
+type ApiFoxImportJson struct {
 	Token  string `json:"token"`
 	Body   string `json:"body"`
 	Expect string `json:"expect"`
 }
 
-type BaseRow struct {
+type ApiFoxRowData struct {
 	Token  string
 	Body   Body
 	Expect Expect

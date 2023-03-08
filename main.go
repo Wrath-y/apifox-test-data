@@ -10,8 +10,8 @@ import (
 
 func main() {
 	// 方式一 直接写结构体
-	rowsData := make([]*base.BaseRow, 0)
-	rowsData = append(rowsData, &base.BaseRow{
+	rowsData := make([]*base.ApiFoxRowData, 0)
+	rowsData = append(rowsData, &base.ApiFoxRowData{
 		Token:  "efdd45da273b99550d3a9b00b1a3be8c", // token ttl已经设置为-1 user: wrath
 		Body:   new(couponlist.Body).SetBody([]int{15934, 15897, 15878}, "CN9999999", "210126288755961791"),
 		Expect: new(couponlist.Expect).SetExpect(1, []string{"210126288755961791"}),
@@ -19,9 +19,9 @@ func main() {
 	GetJson(rowsData, "test_by_struct.json")
 
 	// 方式二 导入写好的json文件
-	rowsData = make([]*base.BaseRow, 0)
+	rowsData = make([]*base.ApiFoxRowData, 0)
 	for _, v := range new(base.Row).ReadFile("test.json") {
-		rowsData = append(rowsData, &base.BaseRow{
+		rowsData = append(rowsData, &base.ApiFoxRowData{
 			Token:  v.Token,
 			Body:   v,
 			Expect: v,
@@ -30,11 +30,11 @@ func main() {
 	GetJson(rowsData, "test_by_file.json")
 }
 
-func GetJson(rowsData []*base.BaseRow, filename string) {
-	finalData := make([]*base.Base, 0, len(rowsData))
+func GetJson(rowsData []*base.ApiFoxRowData, filename string) {
+	finalData := make([]*base.ApiFoxImportJson, 0, len(rowsData))
 
 	for _, v := range rowsData {
-		finalData = append(finalData, &base.Base{
+		finalData = append(finalData, &base.ApiFoxImportJson{
 			Token:  v.Token,
 			Body:   v.Body.GetBody(),
 			Expect: v.Expect.GetExpect(),
